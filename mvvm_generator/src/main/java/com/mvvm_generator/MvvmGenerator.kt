@@ -1,6 +1,7 @@
-package com.ui_generator
+package com.mvvm_generator
 
 import freemarker.template.Configuration
+import freemarker.template.Version
 import java.io.File
 import java.io.StringWriter
 import java.util.*
@@ -8,9 +9,9 @@ import java.util.*
 //define the Environmental variable in Constants.kt
 val projectPath = File("").absolutePath!!
 val templatesFolderPath = "$projectPath$moduleTemplatesPath"
-val fragmentFileFolderPath = "$projectPath$moduleFragmentFolderPath"
-val vmFileFolderPath = "$projectPath$moduleViewModelFolderPath"
-val layoutFolderPath = "$projectPath$moduleLayoutPath"
+val fragmentFileFolderPath = "$projectPath$fragmentFolderPath"
+val vmFileFolderPath = "$projectPath$viewModelFolderPath"
+val layoutFolderPath = "$projectPath$layoutPath"
 
 
 object TemplateGenerator {
@@ -19,6 +20,7 @@ object TemplateGenerator {
         println("""
             |
             | 请输入画面前缀,如: A01_Test
+            | 生成：
             | -> Folder : a01_test
             | -> Fragment : A01TestFragment.kt
             | -> ViewModel : A01TestViewModel.kt
@@ -31,7 +33,7 @@ object TemplateGenerator {
 
         //
         println(File("").absolutePath)
-        val configuration = Configuration()
+        val configuration = Configuration(Version(2,3,28))
         configuration.setDirectoryForTemplateLoading(File(templatesFolderPath))
 
         genFragment(configuration, prefixName)
@@ -99,7 +101,6 @@ object TemplateGenerator {
 
         template.process(params, stringWriter)
         stringWriter.flush()
-        println(prefixName + stringWriter.toString())
         File("$fragmentFileFolderPath/${prefixName.toLowerCase()}").mkdirs()
         File(
             "$fragmentFileFolderPath/${prefixName.toLowerCase()}/" +

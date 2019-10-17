@@ -1,1 +1,1 @@
-include ':app', ':ui_generator'
+include ':app', ':mvvm_generator'
